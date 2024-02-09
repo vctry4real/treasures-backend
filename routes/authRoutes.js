@@ -140,7 +140,7 @@ router.post("/signin", async (req, res) => {
 
   try {
     //check if user already exists
-    const userExists = await USER.findOne({ email });
+    const userExists = await USER.userExist(email);
     if (!userExists || !userExists.password) {
       return res.status(401).json({ msg: "Invalid credentials" });
     }

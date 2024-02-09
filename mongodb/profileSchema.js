@@ -1,4 +1,5 @@
 import mongoose, { Schema, model } from "mongoose";
+import { generateRandomString } from "../utils/index.js";
 
 const profileSchema = Schema({
   email: {
@@ -9,7 +10,14 @@ const profileSchema = Schema({
     type: String,
     required: true,
   },
-  username: { type: String, unique: true, trim: true },
+  username: {
+    type: String,
+    unique: true,
+    trim: true,
+    default: () => {
+      return generateRandomString(8);
+    },
+  },
 
   dob: {
     type: Date,
