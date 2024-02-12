@@ -95,7 +95,6 @@ profileSchema.statics.getProfileByEmail = async function (email) {
     const profile = await this.findOne({ email });
     return profile;
   } catch (error) {
-    console.log(error);
     throw error;
   }
 };
@@ -106,7 +105,6 @@ profileSchema.statics.updateProfile = async function (userData) {
     const profile = await this.updateOne(userData);
     return profile;
   } catch (error) {
-    console.log(error);
     throw error;
   }
 };
