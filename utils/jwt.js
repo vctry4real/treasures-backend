@@ -6,26 +6,26 @@ dotenv.config();
 const secretKey = process.env.SECRETE_KEY;
 
 export const athenticateToken = (req, res, next) => {
-  const accessToken = req.session.accessToken;
+  const accessToken = req.headers.authorization;
 
   if (!accessToken) return res.sendStatus(401);
 
-  jwt.verify(accessToken, secretKey, (err, user) => {
-    if (err) return res.sendStatus(403);
+  const token = accessToken.split(" ")[1];
 
+  jwt.verify(token, secretKey, (err, user) => {
+    if (err) return res.sendStatus(401);
     req.user = user;
     next();
   });
 };
 
-export const authenticateUser = (req, userData) => {
+export const authenticateUser = (userData) => {
   const accessToken = jwt.sign(userData, secretKey, {
+    expiresIn: "2m",
+  });
+  const refreshToken = jwt.sign(userData, secretKey, {
     expiresIn: "15m",
   });
-  const refreshToken = jwt.sign(userData, secretKey);
-
-  req.session.refreshToken = refreshToken;
-  req.session.accessToken = accessToken;
 
   return { accessToken, refreshToken };
 };
