@@ -9,12 +9,20 @@ import connectToDb from "./mongodb/db.js";
 const app = express();
 
 dotenv.config();
-app.use(cors());
+const corsOptions = {
+  origin: "http://localhost:3000", // Change this to your React app's origin
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
+
 app.use(express.json());
 
 app.use("/auth", authRoutes);
 app.use("/jwt", jwtRoutes);
-app.use("/profile", profileRoute);
+app.use("/profile", athenticateToken, profileRoute);
 
 app.get("/", athenticateToken, (req, res) => {
   console.log("Hello world");

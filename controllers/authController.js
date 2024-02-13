@@ -40,11 +40,11 @@ export const googleAuth = async (req, res) => {
       if (userExists) {
         //proceed to create session
 
+        console.log("exists");
         const { _id, __v, exp, authProvider, createdAt, ...userData } =
           userExists.toObject();
 
         const { accessToken, refreshToken } = authenticateUser(userData);
-        console.log("exists");
 
         return res.status(200).json({
           msg: "User Authenticated!",
@@ -54,16 +54,17 @@ export const googleAuth = async (req, res) => {
         });
       } else {
         //add user to document
+
         const newUser = await USER.createUser({
           email: payload.email,
-          firstName: payload.given_name,
-          lastName: payload.family_name,
+          fullName: payload.name,
           authProvider: "google",
         });
         newUser.save({ session });
         await PROFILE.createProfile({
           email: newUser.email,
-          fullName: `${newUser.firstName} ${newUser.lastName}`,
+          fullName: newUser.fullName,
+          user: newUser._id,
         });
 
         console.log("User added: ", newUser);
