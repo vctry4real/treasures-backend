@@ -8,8 +8,8 @@ import PROFILE from "../mongodb/profileSchema.js";
 import { check, validationResult } from "express-validator";
 
 export const googleAuth = async (req, res) => {
-  const { credential, registrationData } = req.body;
-  console.log("registrationData", registrationData);
+  const { credential, type, reason } = req.body;
+
   const session = await mongoose.startSession();
 
   try {
@@ -92,11 +92,12 @@ export const signup = async (req, res) => {
   const {
     email: inputEmail,
     password: inputPassword,
-    firstName,
-    lastName,
+    fullName,
+    type,
+    reason,
   } = req.body;
 
-  if (!inputEmail || !inputPassword || !firstName || !lastName) {
+  if (!inputEmail || !inputPassword || !fullName) {
     console.error("Email and password is required!");
     return res.status(401).json({ msg: "Email and password is required!" });
   }
@@ -116,15 +117,14 @@ export const signup = async (req, res) => {
       //add user to document
       const newUser = await USER.createUser({
         email: inputEmail,
-        firstName,
-        lastName,
+        fullName,
         password: hashPassword,
       });
 
       newUser.save({ session });
       await PROFILE.createProfile({
         email: newUser.email,
-        fullName: `${newUser.firstName} ${newUser.lastName}`,
+        fullName,
       });
 
       console.log("User added: ", newUser);
