@@ -10,7 +10,11 @@ const app = express();
 
 dotenv.config();
 const corsOptions = {
-  origin: ["http://localhost:3000", "https://treasuresf3h.vercel.app/"], // Change this to your React app's origin
+  origin: [
+    "http://localhost:3000",
+    "https://treasuresf3h.vercel.app/",
+    "https://treasure-backendfe.onrender.com",
+  ], // Change this to your React app's origin
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 204,
