@@ -11,5 +11,5 @@ router.post("/google", googleAuth);
 
 router.post("/signup", signup);
 
-// router.post("/signin", signin);
+router.post("/signin", signin);
 export default router;
