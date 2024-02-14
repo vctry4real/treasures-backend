@@ -4,7 +4,7 @@ import { googleAuth, signin, signup } from "../controllers/authController.js";
 
 const router = express.Router();
 
-router.get("/auth/google/callback", (req, res) => {
+router.get("/google/callback", (req, res) => {
   res.status(200).send("Hello google");
 });
 router.post("/google", googleAuth);
