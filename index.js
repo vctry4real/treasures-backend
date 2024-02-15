@@ -10,14 +10,33 @@ const app = express();
 
 dotenv.config();
 const corsOptions = {
-  origin: ["http://localhost:3000", "https://treasuresf3h.vercel.app/"], // Change this to your React app's origin
+  origin: [
+    "http://localhost:3000",
+    "https://treasuresf3h.vercel.app",
+    "https://treasure-backendfe.onrender.com",
+  ], // Change this to your React app's origin
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 204,
 };
 
 app.use(cors(corsOptions));
+app.use((req, res, next) => {
+  const allowedOrigins = [
+    "http://localhost:3000",
+    "https://treasure-backendfe.onrender.com",
+  ];
+  const origin = req.headers.origin;
 
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
+
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  next();
+});
 app.use(express.json());
 
 app.use("/auth", authRoutes);
