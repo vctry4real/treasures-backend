@@ -15,9 +15,8 @@ const corsOptions = {
 
   origin: [
     "http://localhost:3000",
-    "https://treasuresf3h.vercel.app",
+    "https://treasuresapp.vercel.app",
     "https://treasures-frontend.onrender.com",
-    "https://treasure-backendfe.onrender.com",
   ], // Change this to your React app's origin
 
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
@@ -29,7 +28,7 @@ app.use(cors(corsOptions));
 app.use((req, res, next) => {
   const allowedOrigins = [
     "http://localhost:3000",
-    "https://treasure-backendfe.onrender.com",
+    "https://treasuresapp.vercel.app",
     "https://treasures-frontend.onrender.com",
   ];
   const origin = req.headers.origin;
